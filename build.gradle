@@ -43,4 +43,20 @@ dependencies {
     testCompile 'com.github.detro:phantomjsdriver:1.2.0'
 }
 
+task createDB(type: Exec) {
+    workingDir 'db'
+    commandLine './create.sh'
+}
 
+
+task initDB(type: Exec) {
+    workingDir 'db/migrations'
+    commandLine './mybatis/bin/migrate', 'up'
+}
+
+task migrateDB(type: Exec) {
+    workingDir 'db/migrations'
+    commandLine './mybatis/bin/migrate', 'up'
+}
+
+initDB.dependsOn createDB

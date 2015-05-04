@@ -1,0 +1,15 @@
+## Directory-based project format:
+.idea/
+
+*.iml
+*.ipr
+*.iws
+build
+out
+.gradle
+gradle/
+
+
+gradleDebug
+.DS_Store
+classes/*
