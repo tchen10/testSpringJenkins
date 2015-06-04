@@ -3,6 +3,7 @@ apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'jetty'
 apply plugin: "jacoco"
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -48,6 +49,7 @@ task createDB(type: Exec) {
     commandLine './create.sh'
 }
 
+//task stage(dependsOn: ['clean', 'installApp'])
 
 task initDB(type: Exec) {
     workingDir 'db/migrations'
