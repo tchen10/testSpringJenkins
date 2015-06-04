@@ -1,9 +1,20 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.2.2'
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'jetty'
 apply plugin: "jacoco"
 apply plugin: 'application'
+apply plugin: 'com.bmuschko.tomcat'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -57,6 +68,11 @@ dependencies {
 
     compile 'org.eclipse.jetty:jetty-servlet:7.5.3.v20111011'
     compile 'javax.servlet:servlet-api:2.5'
+
+    def tomcatVersion = '7.0.59'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 }
 
 task createDB(type: Exec) {
