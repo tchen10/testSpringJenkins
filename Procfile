@@ -1,0 +1,1 @@
+web: ./build/install/SimpleSpring/bin/SimpleSpring
