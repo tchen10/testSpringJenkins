@@ -22,7 +22,12 @@ repositories {
     mavenCentral()
 }
 
-mainClassName="HelloController"
+configurations {
+    runtimeOnly
+}
+
+mainClassName = "HelloController"
+applicationName = "app"
 
 dependencies {
 //    testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -44,6 +49,14 @@ dependencies {
     testCompile 'org.springframework:spring-test:3.2.6.RELEASE'
     testCompile 'org.seleniumhq.selenium:selenium-java:2.43.1'
     testCompile 'com.github.detro:phantomjsdriver:1.2.0'
+
+    // to run our App on Heroku
+    runtimeOnly "org.mortbay.jetty:jetty-runner:8.1.1.v20120215"
+    // monitoring on Heroku
+    runtimeOnly "com.newrelic.agent.java:newrelic-agent:2.18.0"
+
+    compile 'org.eclipse.jetty:jetty-servlet:7.5.3.v20111011'
+    compile 'javax.servlet:servlet-api:2.5'
 }
 
 task createDB(type: Exec) {
@@ -51,7 +64,7 @@ task createDB(type: Exec) {
     commandLine './create.sh'
 }
 
-task stage(dependsOn: ['clean', 'installApp'])
+task stage(dependsOn: ["clean", "war", "copyToLib", 'installApp'])
 
 task initDB(type: Exec) {
     workingDir 'db/migrations'
@@ -61,6 +74,18 @@ task initDB(type: Exec) {
 task migrateDB(type: Exec) {
     workingDir 'db/migrations'
     commandLine './mybatis/bin/migrate', 'up'
+}
+
+task copyToLib << {
+    copy {
+        from configurations.runtimeOnly.copy().setTransitive(false)
+        into "$buildDir/libs"
+        rename { name ->
+            def artifacts = configurations.runtimeOnly.resolvedConfiguration.resolvedArtifacts
+            def artifact = artifacts.find { it.file.name == name }
+            "${artifact.name}.${artifact.extension}"
+        }
+    }
 }
 
 initDB.dependsOn createDB
