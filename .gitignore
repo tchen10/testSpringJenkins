@@ -6,10 +6,13 @@
 *.iws
 build
 out
-.gradle
+.gradle/*
 gradle/
 
 
 gradleDebug
 .DS_Store
 classes/*
+
+.idea/*
+

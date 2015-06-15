@@ -11,8 +11,6 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'war'
-apply plugin: "jacoco"
-apply plugin: 'application'
 apply plugin: 'com.bmuschko.tomcat'
 
 sourceCompatibility = 1.8
@@ -32,24 +30,15 @@ configurations {
     runtimeOnly
 }
 
-mainClassName = "HelloController"
-applicationName = "app"
-
 dependencies {
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.apache.httpcomponents:httpclient:4.2.1'
-    testCompile 'org.springframework:spring-test:3.2.6.RELEASE'
-    testCompile 'org.seleniumhq.selenium:selenium-java:2.43.1'
-    testCompile 'com.github.detro:phantomjsdriver:1.2.0'
-
     compile "org.springframework:spring-webmvc:4.0.6.RELEASE"
     compile "org.springframework:spring-orm:4.0.6.RELEASE"
     compile 'log4j:log4j:1.2.17'
-    compile 'org.hibernate:hibernate-validator:4.2.0.Final'
 
     providedCompile 'javax.servlet:servlet-api:2.5'
 
+    // to run our App on Heroku
+    runtimeOnly 'com.github.jsimone:webapp-runner:7.0.22'
 
     def tomcatVersion = '7.0.59'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
@@ -57,18 +46,16 @@ dependencies {
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 }
 
-task stage(dependsOn: ["clean", "build", "installApp"])
+task stage(dependsOn: ["clean", "war", "copyToLib"])
 
-//task stage(dependsOn: ["clean", "war", "copyToLib", 'installApp'])
-
-//task copyToLib << {
-//    copy {
-//        from configurations.runtimeOnly.copy().setTransitive(false)
-//        into "$buildDir/libs"
-//        rename { name ->
-//            def artifacts = configurations.runtimeOnly.resolvedConfiguration.resolvedArtifacts
-//            def artifact = artifacts.find { it.file.name == name }
-//            "${artifact.name}.${artifact.extension}"
-//        }
-//    }
-//}
+task copyToLib << {
+    copy {
+        from configurations.runtimeOnly.copy().setTransitive(false)
+        into "$buildDir/libs"
+        rename { name ->
+            def artifacts = configurations.runtimeOnly.resolvedConfiguration.resolvedArtifacts
+            def artifact = artifacts.find { it.file.name == name }
+            "${artifact.name}.${artifact.extension}"
+        }
+    }
+}
