@@ -31,8 +31,8 @@ configurations {
 }
 
 dependencies {
-    compile "org.springframework:spring-webmvc:4.0.6.RELEASE"
-    compile "org.springframework:spring-orm:4.0.6.RELEASE"
+    compile "org.springframework:spring-webmvc:4.1.6.RELEASE"
+    compile "org.springframework:spring-orm:4.1.6.RELEASE"
     compile 'log4j:log4j:1.2.17'
 
     providedCompile 'javax.servlet:servlet-api:2.5'
