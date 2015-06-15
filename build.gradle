@@ -57,7 +57,7 @@ dependencies {
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 }
 
-task stage(dependsOn: tomcatRun)
+//task stage(dependsOn: tomcatRun)
 
 //task copyToLib << {
 //    copy {
