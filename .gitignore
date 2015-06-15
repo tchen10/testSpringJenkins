@@ -15,4 +15,6 @@ gradleDebug
 classes/*
 
 .idea/*
+tomcat*
+target/*
 

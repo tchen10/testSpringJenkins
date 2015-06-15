@@ -38,7 +38,7 @@ dependencies {
     providedCompile 'javax.servlet:servlet-api:2.5'
 
     // to run our App on Heroku
-    runtimeOnly 'com.github.jsimone:webapp-runner:7.0.22'
+    runtimeOnly 'com.github.jsimone:webapp-runner:7.0.57.2'
 
     def tomcatVersion = '7.0.59'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
