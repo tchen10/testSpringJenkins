@@ -11,6 +11,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'war'
+apply plugin: 'application'
 apply plugin: 'com.bmuschko.tomcat'
 
 sourceCompatibility = 1.8
