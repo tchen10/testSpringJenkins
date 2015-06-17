@@ -67,10 +67,23 @@ task copyToLib << {
     }
 }
 
+task dbInit(type: Exec){
+    commandLine 'createdb', '-U', 'postgres', '-p', '5432', 'infotrackdb'
+}
+
 flyway {
-    url = "jdbc:postgresql://localhost:5432/infotrackdb"
-    user = "postgres"
-    password = "postgres"
+    def snapUser = System.getenv("SNAP_DB_PG_USER")
+
+    if (snapUser != null){
+        url = System.getenv("SNAP_DB_PG_JDBC_URL")
+        user = snapUser
+        password = System.getenv("SNAP_DB_PG_PASSWORD")
+    }
+    else {
+        url = "jdbc:postgresql://localhost:5432/infotrackdb"
+        user = "postgres"
+        password = "postgres"
+    }
     driver = "org.postgresql.Driver"
     locations = ["filesystem:${project.rootDir.absolutePath}/src/main/resources/db.migration"]
 }
