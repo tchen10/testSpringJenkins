@@ -4,12 +4,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.bmuschko:gradle-tomcat-plugin:2.2.2'
+        classpath "com.bmuschko:gradle-tomcat-plugin:2.2.2"
+        classpath "org.flywaydb:flyway-gradle-plugin:3.2.1"
     }
-}
-
-plugins {
-    id "org.flywaydb.flyway" version "3.2"
 }
 
 apply plugin: 'java'
@@ -17,6 +14,7 @@ apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'application'
 apply plugin: 'com.bmuschko.tomcat'
+apply plugin: 'org.flywaydb.flyway'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -74,5 +72,5 @@ flyway {
     user = "postgres"
     password = "postgres"
     driver = "org.postgresql.Driver"
-    locations = ["filesystem:${project.rootDir.absolutePath}/src/main/resources/db/migration"]
+    locations = ["filesystem:${project.rootDir.absolutePath}/src/main/resources/db.migration"]
 }
