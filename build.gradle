@@ -8,6 +8,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.flywaydb.flyway" version "3.2"
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'war'
@@ -32,9 +36,13 @@ configurations {
 }
 
 dependencies {
-    compile "org.springframework:spring-webmvc:4.1.6.RELEASE"
-    compile "org.springframework:spring-orm:4.1.6.RELEASE"
-    compile 'log4j:log4j:1.2.17'
+    compile "org.springframework:spring-webmvc:4.1.6.RELEASE",
+            "org.springframework:spring-orm:4.1.6.RELEASE",
+            "log4j:log4j:1.2.17",
+
+            //database dependencies
+            "org.postgresql:postgresql:9.3-1102-jdbc4",
+            "org.hibernate:hibernate-validator:4.2.0.Final"
 
     providedCompile 'javax.servlet:servlet-api:2.5'
 
@@ -59,4 +67,12 @@ task copyToLib << {
             "${artifact.name}.${artifact.extension}"
         }
     }
+}
+
+flyway {
+    url = "jdbc:postgresql://localhost:5432/infotrackdb"
+    user = "postgres"
+    password = "postgres"
+    driver = "org.postgresql.Driver"
+    locations = ["filesystem:${project.rootDir.absolutePath}/src/main/resources/db/migration"]
 }
