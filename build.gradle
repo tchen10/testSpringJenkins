@@ -71,6 +71,10 @@ task dbInit(type: Exec){
     commandLine 'createdb', '-U', 'postgres', '-p', '5432', 'infotrackdb'
 }
 
+task loadTestData(type: Exec){
+    commandLine 'psql' , 'infotrackdb', '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql", '-U', 'postgres', '-p', '5432'
+}
+
 flyway {
     def snapUser = System.getenv("SNAP_DB_PG_USER")
 
