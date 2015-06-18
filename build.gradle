@@ -43,18 +43,22 @@ configurations {
 }
 
 dependencies {
+    testCompile "junit:junit:4.11",
+                "org.mockito:mockito-core:1.9.5"
+
     compile "org.springframework:spring-webmvc:4.1.6.RELEASE",
             "org.springframework:spring-orm:4.1.6.RELEASE",
             "log4j:log4j:1.2.17",
 
             //database dependencies
             "org.postgresql:postgresql:9.3-1102-jdbc4",
-            "org.hibernate:hibernate-validator:4.2.0.Final"
+            "org.hibernate:hibernate-validator:5.0.1.Final",
+            "org.hibernate:hibernate-core:4.3.6.Final"
 
-    providedCompile 'javax.servlet:servlet-api:2.5'
+    providedCompile "javax.servlet:servlet-api:2.5"
 
     // to run our App on Heroku
-    runtimeOnly 'com.github.jsimone:webapp-runner:7.0.57.2'
+    runtimeOnly "com.github.jsimone:webapp-runner:7.0.57.2"
 
     def tomcatVersion = '7.0.59'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
