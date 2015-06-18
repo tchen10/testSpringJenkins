@@ -23,6 +23,15 @@ version = '1.0'
 
 war.baseName = "simpleSpring"
 
+war {
+    //this is for the database configuration (-Penvironment=local, -Penvironment=snap, -Penvironment=heroku)
+    eachFile {
+        if (it.name == 'applicationContext.xml') {
+            it.filter {String line -> line.replaceAll('\\$\\{environment\\}', environment) }
+        }
+    }
+}
+
 tomcat.contextPath = '/'
 
 repositories {
