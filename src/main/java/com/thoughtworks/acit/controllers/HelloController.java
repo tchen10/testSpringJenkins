@@ -1,4 +1,4 @@
-package com.simplespring.mvc.web;
+package com.thoughtworks.acit.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
