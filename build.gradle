@@ -23,15 +23,6 @@ version = '1.0'
 
 war.baseName = "simpleSpring"
 
-war {
-    //this is for the database configuration (-Penvironment=local, -Penvironment=snap, -Penvironment=heroku)
-    eachFile {
-        if (it.name == 'applicationContext.xml') {
-            it.filter {String line -> line.replaceAll('\\$\\{environment\\}', environment) }
-        }
-    }
-}
-
 tomcat.contextPath = '/'
 
 repositories {
@@ -67,6 +58,9 @@ dependencies {
 
     runtime 'javax.servlet:jstl:1.2'
 }
+def env = System.getProperty("env")
+Properties props = new Properties()
+props.load(new FileInputStream("src/main/resources/${env}.properties"))
 
 task stage(dependsOn: ["clean", "war", "copyToLib"])
 
@@ -91,18 +85,9 @@ task loadTestData(type: Exec){
 }
 
 flyway {
-    def snapUser = System.getenv("SNAP_DB_PG_USER")
-
-    if (snapUser != null){
-        url = System.getenv("SNAP_DB_PG_JDBC_URL")
-        user = snapUser
-        password = System.getenv("SNAP_DB_PG_PASSWORD")
-    }
-    else {
-        url = "jdbc:postgresql://localhost:5432/infotrackdb"
-        user = "postgres"
-        password = "postgres"
-    }
+    url = "${props.postgresqlUrl}"
+    user = "${props.postgresqlUsername}"
+    password = "${props.postgresqlPassword}"
     driver = "org.postgresql.Driver"
     locations = ["filesystem:${project.rootDir.absolutePath}/src/main/resources/db.migration"]
 }

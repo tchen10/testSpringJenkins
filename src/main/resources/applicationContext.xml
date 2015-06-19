@@ -12,12 +12,12 @@
             http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="com.thoughtworks.acit"/>
-    <context:property-placeholder location="classpath:local.properties"/>
+    <context:property-placeholder location="classpath:#{systemProperties['env']}.properties"/>
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://${postgresqlUrl}"/>
+        <property name="url" value="${postgresqlUrl}"/>
         <property name="username" value="${postgresqlUsername}"/>
         <property name="password" value="${postgresqlPassword}"/>
     </bean>
