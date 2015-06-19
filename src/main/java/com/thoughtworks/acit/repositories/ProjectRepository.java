@@ -3,6 +3,7 @@ package com.thoughtworks.acit.repositories;
 import com.thoughtworks.acit.domain.Project;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;

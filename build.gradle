@@ -64,6 +64,8 @@ dependencies {
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
+    runtime 'javax.servlet:jstl:1.2'
 }
 
 task stage(dependsOn: ["clean", "war", "copyToLib"])

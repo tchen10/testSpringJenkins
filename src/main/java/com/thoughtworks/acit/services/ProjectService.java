@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class ProjectService {
 
-    @Autowired
     private ProjectRepository projectRepository;
 
     @Autowired
@@ -26,5 +25,4 @@ public class ProjectService {
     public void save(Project project) {
         this.projectRepository.save(project);
     }
-
 }

@@ -1,7 +1,13 @@
 package com.thoughtworks.acit.domain;
 
+import javax.persistence.*;
 
+@Entity
+@Table
+@SequenceGenerator(name="id_generator", sequenceName="project_project_id_seq")
 public class Project {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO, generator="id_generator")
     private int project_id;
     private String name;
 
