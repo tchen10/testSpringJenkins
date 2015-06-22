@@ -63,7 +63,6 @@ Properties props = new Properties()
 
 task setEnv {
     def profile = System.getenv("PROFILE")
-    System.out.println("I got the profile: " + profile)
 
     if (profile == "snap") {
         def snapFile = new File("src/main/resources/snap.properties")
@@ -72,7 +71,6 @@ task setEnv {
         def herokuFile = new File("src/main/resources/heroku.properties")
         herokuFile.write("postgresqlUrl=" + System.getenv("HEROKU_DB_PG_JDBC_URL") + "\npostgresqlUsername=" + System.getenv("HEROKU_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("HEROKU_DB_PG_PASSWORD"))
     } else {
-        System.out.println("I'm in local")
         profile = "local"
     }
 
@@ -81,7 +79,7 @@ task setEnv {
 
 task runApp(dependsOn: ["setEnv", "tomcatRun"])
 
-task stage(dependsOn: ["clean", "setEnv", "war", "copyToLib"])
+task stage(dependsOn: ["clean", "setEnv", "flywayMigrate", "war", "copyToLib"])
 
 task copyToLib << {
     copy {
