@@ -65,7 +65,8 @@ if (env == "snap"){
     def snapFile = new File("src/main/resources/snap.properties")
     snapFile.write("postgresqlUrl=" + System.getenv("SNAP_DB_PG_JDBC_URL")+"\npostgresqlUsername=" + System.getenv("SNAP_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("SNAP_DB_PG_PASSWORD"))
 } else if(env == "heroku"){
-
+    def herokuFile = new File("src/main/resources/heroku.properties")
+    herokuFile.write("postgresqlUrl=" + System.getenv("HEROKU_DB_PG_JDBC_URL")+"\npostgresqlUsername=" + System.getenv("HEROKU_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("HEROKU_DB_PG_PASSWORD"))
 }
 
 props.load(new FileInputStream("src/main/resources/${env}.properties"))
