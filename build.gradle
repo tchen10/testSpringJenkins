@@ -58,20 +58,30 @@ dependencies {
 
     runtime 'javax.servlet:jstl:1.2'
 }
-def env = System.getProperty("env")
+
 Properties props = new Properties()
 
-if (env == "snap"){
-    def snapFile = new File("src/main/resources/snap.properties")
-    snapFile.write("postgresqlUrl=" + System.getenv("SNAP_DB_PG_JDBC_URL")+"\npostgresqlUsername=" + System.getenv("SNAP_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("SNAP_DB_PG_PASSWORD"))
-} else if(env == "heroku"){
-    def herokuFile = new File("src/main/resources/heroku.properties")
-    herokuFile.write("postgresqlUrl=" + System.getenv("HEROKU_DB_PG_JDBC_URL")+"\npostgresqlUsername=" + System.getenv("HEROKU_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("HEROKU_DB_PG_PASSWORD"))
+task setEnv {
+    def profile = System.getenv("PROFILE")
+    System.out.println("I got the profile: " + profile)
+
+    if (profile == "snap") {
+        def snapFile = new File("src/main/resources/snap.properties")
+        snapFile.write("postgresqlUrl=" + System.getenv("SNAP_DB_PG_JDBC_URL") + "\npostgresqlUsername=" + System.getenv("SNAP_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("SNAP_DB_PG_PASSWORD"))
+    } else if (profile == "heroku") {
+        def herokuFile = new File("src/main/resources/heroku.properties")
+        herokuFile.write("postgresqlUrl=" + System.getenv("HEROKU_DB_PG_JDBC_URL") + "\npostgresqlUsername=" + System.getenv("HEROKU_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("HEROKU_DB_PG_PASSWORD"))
+    } else {
+        System.out.println("I'm in local")
+        profile = "local"
+    }
+
+    props.load(new FileInputStream("src/main/resources/${profile}.properties"))
 }
 
-props.load(new FileInputStream("src/main/resources/${env}.properties"))
+task runApp(dependsOn: ["setEnv", "tomcatRun"])
 
-task stage(dependsOn: ["clean", "war", "copyToLib"])
+task stage(dependsOn: ["clean", "setEnv", "war", "copyToLib"])
 
 task copyToLib << {
     copy {
@@ -85,13 +95,16 @@ task copyToLib << {
     }
 }
 
-task dbInit(type: Exec){
+task dbInit(type: Exec, dependsOn: ["setEnv"]) {
     commandLine 'createdb', '-U', 'postgres', '-p', '5432', 'infotrackdb'
+    commandLine 'createuser', '-P', '-s', '-e', "${props.postgresqlUsername}"
 }
 
 task loadTestData(type: Exec){
     commandLine 'psql' , 'infotrackdb', '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql", '-U', 'postgres', '-p', '5432'
 }
+
+task dbUpdate(dependsOn: ["setEnv", "flywayMigrate"])
 
 flyway {
     url = "${props.postgresqlUrl}"
