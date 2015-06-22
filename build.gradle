@@ -60,6 +60,14 @@ dependencies {
 }
 def env = System.getProperty("env")
 Properties props = new Properties()
+
+if (env == "snap"){
+    def snapFile = new File("src/main/resources/snap.properties")
+    snapFile.write("postgresqlUrl=" + System.getenv("SNAP_DB_PG_JDBC_URL")+"\npostgresqlUsername=" + System.getenv("SNAP_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("SNAP_DB_PG_PASSWORD"))
+} else if(env == "heroku"){
+
+}
+
 props.load(new FileInputStream("src/main/resources/${env}.properties"))
 
 task stage(dependsOn: ["clean", "war", "copyToLib"])
