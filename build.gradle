@@ -82,8 +82,7 @@ task copyToLib << {
 task runApp(dependsOn: ["setEnv", "tomcatRun"])
 
 task dbInit(type: Exec, dependsOn: ["setEnv"]) {
-    commandLine 'createdb', '-U', 'postgres', '-p', '5432', 'infotrackdb'
-    commandLine 'createuser', '-P', '-s', '-e', "${props.postgresqlUsername}"
+    commandLine 'createdb', '-p', '5432', 'infotrackdb'
 }
 
 task dbUpdate(dependsOn: ["setEnv", "flywayMigrate"])

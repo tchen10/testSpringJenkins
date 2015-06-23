@@ -5,5 +5,5 @@ task setEnv {
 }
 
 task loadTestData(type: Exec) {
-    commandLine 'psql', 'infotrackdb', '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql", '-U', 'postgres', '-p', '5432'
+    commandLine 'psql', 'infotrackdb', '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql", '-p', '5432'
 }
