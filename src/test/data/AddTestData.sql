@@ -1,4 +1,4 @@
-INSERT INTO project (name) VALUES('SWA');
-INSERT INTO project (name) VALUES('CATALINA');
-INSERT INTO project (name) VALUES('KROGER');
-INSERT INTO project (name) VALUES('Barclays');
+INSERT INTO project (name) VALUES('Jessica 1');
+INSERT INTO project (name) VALUES('Tiffany 2');
+INSERT INTO project (name) VALUES('Sebastian 3');
+INSERT INTO project (name) VALUES('Kambale 4');
