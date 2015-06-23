@@ -1,5 +1,5 @@
 ext.props = new Properties()
-props.load(new FileInputStream("src/main/resources/snap.properties"))
+props.load(new FileInputStream("src/main/resources/heroku.properties"))
 
 processResources {
     def herokuFile = new File("src/main/resources/heroku.properties")
