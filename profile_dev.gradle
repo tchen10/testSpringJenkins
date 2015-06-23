@@ -1,0 +1,6 @@
+ext.props = new Properties()
+props.load(new FileInputStream("src/main/resources/local.properties"))
+
+task loadTestData(type: Exec){
+    commandLine 'psql' , 'infotrackdb', '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql", '-U', 'postgres', '-p', '5432'
+}

@@ -16,6 +16,14 @@ apply plugin: 'application'
 apply plugin: 'com.bmuschko.tomcat'
 apply plugin: 'org.flywaydb.flyway'
 
+if (System.getenv("PROFILE") == 'snap') {
+    apply from: 'profile_snap.gradle'
+} else if (System.getenv("PROFILE") == 'heroku') {
+    apply from: 'profile_heroku.gradle'
+} else {
+    apply from: 'profile_dev.gradle'
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -59,28 +67,6 @@ dependencies {
     runtime 'javax.servlet:jstl:1.2'
 }
 
-Properties props = new Properties()
-
-task setEnv {
-    def profile = System.getenv("PROFILE")
-
-    if (profile == "snap") {
-        def snapFile = new File("src/main/resources/snap.properties")
-        snapFile.write("postgresqlUrl=" + System.getenv("SNAP_DB_PG_JDBC_URL") + "\npostgresqlUsername=" + System.getenv("SNAP_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("SNAP_DB_PG_PASSWORD"))
-    } else if (profile == "heroku") {
-        def herokuFile = new File("src/main/resources/heroku.properties")
-        herokuFile.write("postgresqlUrl=" + System.getenv("HEROKU_DB_PG_JDBC_URL") + "\npostgresqlUsername=" + System.getenv("HEROKU_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("HEROKU_DB_PG_PASSWORD"))
-    } else {
-        profile = "local"
-    }
-
-    props.load(new FileInputStream("src/main/resources/${profile}.properties"))
-}
-
-task runApp(dependsOn: ["setEnv", "tomcatRun"])
-
-task stage(dependsOn: ["clean", "setEnv", "flywayMigrate", "war", "copyToLib"])
-
 task copyToLib << {
     copy {
         from configurations.runtimeOnly.copy().setTransitive(false)
@@ -93,16 +79,10 @@ task copyToLib << {
     }
 }
 
-task dbInit(type: Exec, dependsOn: ["setEnv"]) {
+task dbInit(type: Exec) {
     commandLine 'createdb', '-U', 'postgres', '-p', '5432', 'infotrackdb'
     commandLine 'createuser', '-P', '-s', '-e', "${props.postgresqlUsername}"
 }
-
-task loadTestData(type: Exec){
-    commandLine 'psql' , 'infotrackdb', '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql", '-U', 'postgres', '-p', '5432'
-}
-
-task dbUpdate(dependsOn: ["setEnv", "flywayMigrate"])
 
 flyway {
     url = "${props.postgresqlUrl}"
