@@ -2,7 +2,9 @@ ext.props = new Properties()
 
 task setEnv {
     def herokuFile = new File("src/main/resources/heroku.properties")
-    herokuFile.write("postgresqlUrl=" + System.getenv("HEROKU_DB_PG_JDBC_URL") + "\npostgresqlUsername=" + System.getenv("HEROKU_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("HEROKU_DB_PG_PASSWORD"))
+    def jdbcURL= "jdbc:postgresql://" + System.getenv("HEROKU_DB_PG_HOST") + ":" + System.getenv("HEROKU_DB_PG_PORT") + "/" + System.getenv("HEROKU_DB_PG_NAME")
+
+    herokuFile.write("postgresqlUrl=" +  jdbcURL + "\npostgresqlUsername=" + System.getenv("HEROKU_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("HEROKU_DB_PG_PASSWORD"))
 
     props.load(new FileInputStream("src/main/resources/heroku.properties"))
 }
