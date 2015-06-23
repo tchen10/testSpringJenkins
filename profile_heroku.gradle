@@ -1,13 +1,14 @@
 ext.props = new Properties()
-props.load(new FileInputStream("src/main/resources/heroku.properties"))
 
-processResources {
+task setEnv {
     def herokuFile = new File("src/main/resources/heroku.properties")
     herokuFile.write("postgresqlUrl=" + System.getenv("HEROKU_DB_PG_JDBC_URL") + "\npostgresqlUsername=" + System.getenv("HEROKU_DB_PG_USER") + "\npostgresqlPassword=" + System.getenv("HEROKU_DB_PG_PASSWORD"))
+
+    props.load(new FileInputStream("src/main/resources/heroku.properties"))
 }
 
-task loadTestData(type: Exec){
-    commandLine 'psql' , 'd3a768s9fol73e', '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql", '-U', 'vckfhimyuiymcz', '-p', '5432'
+task loadTestData(type: Exec) {
+    commandLine 'psql', 'd3a768s9fol73e', '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql", '-U', 'vckfhimyuiymcz', '-p', '5432'
 }
 
 task stage(dependsOn: ["clean", "flywayMigrate", "war", "copyToLib"])
