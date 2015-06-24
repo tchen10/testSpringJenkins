@@ -15,6 +15,5 @@ task loadStagingTestData(type: Exec) {
                 '-h', 'ec2-54-204-20-209.compute-1.amazonaws.com',
                 '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql",
                 '-U', 'vckfhimyuiymcz',
-                '-p', '5432',
-                '-w'
+                '-p', '5432'
 }
