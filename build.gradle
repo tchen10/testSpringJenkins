@@ -116,7 +116,8 @@ flyway {
 }
 
 setEnv.doLast {
-    ant.replace(file: 'src/main/resources/okta_config.xml', token: '${oktaEntityId}', value: props.oktaEntityId)
-    ant.replace(file: 'src/main/resources/okta_config.xml', token: '${oktaCertificate}', value: props.oktaCertificate)
-    ant.replace(file: 'src/main/resources/okta_config.xml', token: '${oktaRedirect}', value: props.oktaRedirect)
+    ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "<default>.*</default>", replace: "<default>" + props.oktaEntityId + "</default>")
+    ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "entityID=.*>", replace: "entityID='" + props.oktaEntityId + "'>")
+    ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "<ds:X509Certificate>.*</ds:X509Certificate>", replace: "<ds:X509Certificate>" + props.oktaCertificate + "</ds:X509Certificate>")
+    ant.replaceregexp(file: 'src/main/resources/okta_config.xml', flags: 'g', match: "Location=.*/>", replace: "Location='" + props.oktaRedirect + "'/>")
 }
