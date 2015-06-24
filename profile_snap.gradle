@@ -10,7 +10,7 @@ task setEnv {
     props.load(new FileInputStream("src/main/resources/snap.properties"))
 }
 //This is used in the deploy stage of the snap pipeline to load test data into the staging db
-task loadStagingTestData(type: Exec) {
+task loadTestData(type: Exec) {
     commandLine 'psql', 'd3a768s9fol73e',
                 '-h', 'ec2-54-204-20-209.compute-1.amazonaws.com',
                 '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql",
