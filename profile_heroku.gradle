@@ -11,7 +11,8 @@ task setEnv {
             "\noktaRedirect=" + System.getenv("OKTA_REDIRECT") +
             "\noktaApiKey=" + System.getenv("OKTA_API_KEY") +
             "\noktaUrl=" + System.getenv("OKTA_URL") +
-            "\noktaEntityId=" + System.getenv("OKTA_ENTITY_ID"))
+            "\noktaEntityId=" + System.getenv("OKTA_ENTITY_ID") +
+            "\nprojectAbsolutePath=" + project.rootDir.absolutePath)
 
     props.load(new FileInputStream("src/main/resources/heroku.properties"))
 }

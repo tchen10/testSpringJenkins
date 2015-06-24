@@ -49,6 +49,9 @@ dependencies {
             "org.springframework:spring-orm:4.1.6.RELEASE",
             "org.springframework.security:spring-security-core:4.0.1.RELEASE",
             "org.springframework.security:spring-security-config:4.0.1.RELEASE",
+            'org.opensaml:opensaml:2.6.1',
+            'xml-apis:xml-apis:1.4.01',
+            'org.slf4j:slf4j-simple:1.7.7',
             "log4j:log4j:1.2.17",
 
             //database dependencies
@@ -110,4 +113,10 @@ flyway {
     password = "${props.postgresqlPassword}"
     driver = "org.postgresql.Driver"
     locations = ["filesystem:${project.rootDir.absolutePath}/src/main/resources/db.migration"]
+}
+
+setEnv.doLast {
+    ant.replace(file: 'src/main/resources/okta_config.xml', token: '${oktaEntityId}', value: props.oktaEntityId)
+    ant.replace(file: 'src/main/resources/okta_config.xml', token: '${oktaCertificate}', value: props.oktaCertificate)
+    ant.replace(file: 'src/main/resources/okta_config.xml', token: '${oktaRedirect}', value: props.oktaRedirect)
 }

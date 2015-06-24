@@ -62,9 +62,9 @@
         <constructor-arg value="${projectAbsolutePath}/src/main/resources/okta_config.xml"/>
     </bean>
 
-    <!--<bean id="oktaAuthPeer" class="com.okta.saml.util.OktaAuthPeer">-->
-        <!--<constructor-arg ref="configFilePath"/>-->
-        <!--<constructor-arg ref="loggedInKey"/>-->
-        <!--<constructor-arg ref="loggedOutKey"/>-->
-    <!--</bean>-->
+    <bean id="oktaAuthPeer" class="com.okta.saml.util.OktaAuthPeer">
+        <constructor-arg ref="configFilePath"/>
+        <constructor-arg ref="loggedInKey"/>
+        <constructor-arg ref="loggedOutKey"/>
+    </bean>
 </beans>

@@ -16,13 +16,13 @@ import java.util.Collections;
 @Controller
 public class SAMLController {
 
-//    private final OktaAuthPeer oktaAuthPeer;
+    private final OktaAuthPeer oktaAuthPeer;
     private final String oktaUrl;
     private final String oktaApiKey;
 
     @Autowired
-    public SAMLController(String oktaUrl, String oktaApiKey) {
-//        this.oktaAuthPeer = oktaAuthPeer;
+    public SAMLController(OktaAuthPeer oktaAuthPeer, String oktaUrl, String oktaApiKey) {
+        this.oktaAuthPeer = oktaAuthPeer;
         this.oktaUrl = oktaUrl;
         this.oktaApiKey = oktaApiKey;
     }
