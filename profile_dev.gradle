@@ -1,7 +1,10 @@
 ext.props = new Properties()
 
 task setEnv {
-    props.load(new FileInputStream("src/main/resources/local.properties"))
+    def devProps = new File("src/main/resources/local.properties")
+    props.load(devProps.newDataInputStream())
+    props.setProperty('projectAbsolutePath', project.rootDir.absolutePath)
+    props.store(devProps.newWriter(), null)
 }
 
 task loadTestData(type: Exec) {

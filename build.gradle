@@ -47,12 +47,20 @@ dependencies {
 
     compile "org.springframework:spring-webmvc:4.1.6.RELEASE",
             "org.springframework:spring-orm:4.1.6.RELEASE",
+            "org.springframework.security:spring-security-core:4.0.1.RELEASE",
+            "org.springframework.security:spring-security-config:4.0.1.RELEASE",
             "log4j:log4j:1.2.17",
 
             //database dependencies
             "org.postgresql:postgresql:9.3-1102-jdbc4",
             "org.hibernate:hibernate-validator:5.0.1.Final",
-            "org.hibernate:hibernate-core:4.3.6.Final"
+            "org.hibernate:hibernate-core:4.3.6.Final",
+            fileTree('lib')
+
+    compile ("org.springframework.security:spring-security-web:4.0.1.RELEASE") {
+        exclude group: "org.springframework", module: "spring-jdbc"
+        exclude group: "org.springframework", module: "spring-tx"
+    }
 
     providedCompile "javax.servlet:servlet-api:2.5"
 

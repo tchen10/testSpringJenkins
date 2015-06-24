@@ -38,4 +38,33 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="oktaRedirect" class="java.lang.String">
+        <constructor-arg value="${oktaRedirect}"/>
+    </bean>
+
+    <bean id="oktaUrl" class="java.lang.String">
+        <constructor-arg value="${oktaUrl}"/>
+    </bean>
+
+    <bean id="oktaApiKey" class="java.lang.String">
+        <constructor-arg value="${oktaApiKey}"/>
+    </bean>
+
+    <bean id="loggedInKey" class="java.lang.String">
+        <constructor-arg value="okta.acit.user"/>
+    </bean>
+
+    <bean id="loggedOutKey" class="java.lang.String">
+        <constructor-arg value="okta.acit.logged_out_user"/>
+    </bean>
+
+    <bean id="configFilePath" class="java.lang.String">
+        <constructor-arg value="${projectAbsolutePath}/src/main/resources/okta_config.xml"/>
+    </bean>
+
+    <!--<bean id="oktaAuthPeer" class="com.okta.saml.util.OktaAuthPeer">-->
+        <!--<constructor-arg ref="configFilePath"/>-->
+        <!--<constructor-arg ref="loggedInKey"/>-->
+        <!--<constructor-arg ref="loggedOutKey"/>-->
+    <!--</bean>-->
 </beans>
