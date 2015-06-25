@@ -52,3 +52,6 @@ We use flyway for our database migration tool. Flyway comes with a lot of comman
 - `./gradlew flywayRepair` :	Repairs the metadata table
 
 
+## Backup Heroku DB
+-To schedule your heroku db backup type this command from your command line assuming your repo is remotely connected to heroku: `heroku pg:backups schedule DATABASE_URL --at '02:00 America/Los_Angeles'`, this schedules a backup every day at 2:00PM PST
+-To add a heroku backup to your SNAP-CI script when you deploy the app to Heroku: have `heroku pg:backups capture --app APP_NAME` as a command
