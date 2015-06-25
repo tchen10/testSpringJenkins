@@ -1,13 +1,11 @@
-ext.props = new Properties()
+ext.propFile = new File("src/main/resources/snap.properties")
+ext.propFile.createNewFile()
 
 task setEnv {
-    def snapFile = new File("src/main/resources/snap.properties")
-    snapFile.write("postgresqlUrl=" + System.getenv("SNAP_DB_PG_JDBC_URL") +
-            "\npostgresqlUsername=" + System.getenv("SNAP_DB_PG_USER") +
-            "\npostgresqlPassword=" + System.getenv("SNAP_DB_PG_PASSWORD")+
-            "\nprojectAbsolutePath=" + project.rootDir.absolutePath)
-
-    props.load(new FileInputStream("src/main/resources/snap.properties"))
+    props.load(propFile.newDataInputStream())
+    props.setProperty('postgresqlUrl', System.getenv("SNAP_DB_PG_JDBC_URL"))
+    props.setProperty('postgresqlUsername', System.getenv("SNAP_DB_PG_USER"))
+    props.setProperty('postgresqlPassword', System.getenv("SNAP_DB_PG_PASSWORD"))
 }
 //This is used in the deploy stage of the snap pipeline to load test data into the staging db
 task loadTestData(type: Exec) {

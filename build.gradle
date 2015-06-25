@@ -16,6 +16,8 @@ apply plugin: 'application'
 apply plugin: 'com.bmuschko.tomcat'
 apply plugin: 'org.flywaydb.flyway'
 
+ext.props = new Properties()
+
 if (System.getenv("PROFILE") == 'snap') {
     apply from: 'profile_snap.gradle'
 } else if (System.getenv("PROFILE") == 'heroku') {
@@ -107,6 +109,8 @@ flyway {
 }
 
 setEnv.doLast {
+    props.setProperty('projectAbsolutePath', project.rootDir.absolutePath)
+    props.store(propFile.newWriter(), null)
     ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "<default>.*</default>", replace: "<default>" + props.oktaEntityId + "</default>")
     ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "entityID=.*>", replace: "entityID='" + props.oktaEntityId + "'>")
     ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "<ds:X509Certificate>.*</ds:X509Certificate>", replace: "<ds:X509Certificate>" + props.oktaCertificate + "</ds:X509Certificate>")
