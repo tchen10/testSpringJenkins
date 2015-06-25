@@ -110,7 +110,7 @@ task loadStagingTestData(type: Exec) {
 }
 
 flyway {
-    url = "${props.postgresqlUrl}"
+    url = "jdbc:postgresql://${props.postgresqlHost}:${props.postgresqlPort}/${props.postgresqlDB}"
     user = "${props.postgresqlUsername}"
     password = "${props.postgresqlPassword}"
     driver = "org.postgresql.Driver"
