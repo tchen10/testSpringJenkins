@@ -3,7 +3,9 @@ ext.propFile.createNewFile()
 
 task setEnv {
     props.load(propFile.newDataInputStream())
-    props.setProperty('postgresqlUrl', System.getenv("SNAP_DB_PG_JDBC_URL"))
+    props.setProperty('postgresqlHost', System.getenv("SNAP_DB_PG_HOST"))
+    props.setProperty('postgresqlPort', System.getenv("SNAP_DB_PG_PORT"))
+    props.setProperty('postgresqlDB', 'app_test')
     props.setProperty('postgresqlUsername', System.getenv("SNAP_DB_PG_USER"))
     props.setProperty('postgresqlPassword', System.getenv("SNAP_DB_PG_PASSWORD"))
 }
