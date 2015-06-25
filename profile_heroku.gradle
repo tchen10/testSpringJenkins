@@ -2,7 +2,7 @@ ext.propFile = new File("src/main/resources/heroku.properties")
 ext.propFile.createNewFile()
 
 task setEnv {
-    def jdbcURL= "jdbc:postgresql://" + System.getenv("HEROKU_DB_PG_HOST") + ":" + System.getenv("HEROKU_DB_PG_PORT") + "/" + System.getenv("HEROKU_DB_PG_NAME") + "?user=" + System.getenv("HEROKU_DB_PG_USER") + "&password=" + System.getenv("HEROKU_DB_PG_PASSWORD") + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory"
+    def jdbcURL= "jdbc:postgresql://" + System.getenv("HEROKU_DB_PG_HOST") + ":" + System.getenv("HEROKU_DB_PG_PORT") + "/" + System.getenv("HEROKU_DB_PG_NAME")
     props.load(propFile.newDataInputStream())
     props.setProperty('postgresqlUrl', jdbcURL)
     props.setProperty('postgresqlUsername', System.getenv("HEROKU_DB_PG_USER"))
