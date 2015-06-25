@@ -1,4 +1,6 @@
-# simplespring
+# TestSpringSnap
+
+[![Build Status](https://snap-ci.com/snap-ci/docs.snap-ci.com/branch/master/build_image)](https://snap-ci.com/sebradloff/testSpringSnap/branch/master)
 
 ## Project Set Up
 1. Clone the repository
