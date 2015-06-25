@@ -98,7 +98,7 @@ task dbInit(type: Exec, dependsOn: ["setEnv"]) {
     commandLine 'createdb', '-p', '5432', 'infotrackdb'
 }
 
-task dbReset(dependsOn: ["setEnv", "flywayClean", "flywayMigrate"])
+task dbReset(dependsOn: ["setEnv", "flywayMigrate"])
 
 //This is used in the deploy stage of the snap pipeline to load test data into the staging db
 task loadStagingTestData(type: Exec) {

@@ -8,11 +8,11 @@ task setEnv {
     props.setProperty('postgresqlDB', System.getenv("HEROKU_DB_PG_NAME"))
     props.setProperty('postgresqlUsername', System.getenv("HEROKU_DB_PG_USER"))
     props.setProperty('postgresqlPassword', System.getenv("HEROKU_DB_PG_PASSWORD"))
-//    props.setProperty('oktaCertificate', System.getenv("OKTA_CERTIFICATE"))
-//    props.setProperty('oktaRedirect', System.getenv("OKTA_REDIRECT"))
-//    props.setProperty('oktaApiKey', System.getenv("OKTA_API_KEY"))
-//    props.setProperty('oktaUrl', System.getenv("OKTA_URL"))
-//    props.setProperty('oktaEntityId', System.getenv("OKTA_ENTITY_ID"))
+    props.setProperty('oktaCertificate', System.getenv("OKTA_CERTIFICATE"))
+    props.setProperty('oktaRedirect', System.getenv("OKTA_REDIRECT"))
+    props.setProperty('oktaApiKey', System.getenv("OKTA_API_KEY"))
+    props.setProperty('oktaUrl', System.getenv("OKTA_URL"))
+    props.setProperty('oktaEntityId', System.getenv("OKTA_ENTITY_ID"))
 }
 
 task stage(dependsOn: ["clean", "dbReset", "war", "copyToLib"])
