@@ -92,7 +92,7 @@ task copyToLib << {
     }
 }
 
-task runApp(dependsOn: ["setEnv", "tomcatRun"])
+task runApp(dependsOn: ["setEnv", "configureOkta", "tomcatRun"])
 
 task dbInit(type: Exec, dependsOn: ["setEnv"]) {
     commandLine 'createdb', '-p', '5432', 'infotrackdb'
@@ -117,9 +117,7 @@ flyway {
     locations = ["filesystem:${project.rootDir.absolutePath}/src/main/resources/db.migration"]
 }
 
-setEnv.doLast {
-    props.setProperty('projectAbsolutePath', project.rootDir.absolutePath)
-    props.store(propFile.newWriter(), null)
+task configureOkta {
     // TODO: look for a templating system to write to okta_config
     ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "<default>.*</default>", replace: "<default>" + props.oktaEntityId + "</default>")
     ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "entityID=.*>", replace: "entityID='" + props.oktaEntityId + "'>")

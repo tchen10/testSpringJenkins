@@ -2,7 +2,6 @@ ext.propFile = new File("src/main/resources/heroku.properties")
 ext.propFile.createNewFile()
 
 task setEnv {
-    props.load(propFile.newDataInputStream())
     props.setProperty('postgresqlHost', System.getenv("HEROKU_DB_PG_HOST"))
     props.setProperty('postgresqlPort', System.getenv("HEROKU_DB_PG_PORT"))
     props.setProperty('postgresqlDB', System.getenv("HEROKU_DB_PG_NAME"))
@@ -13,6 +12,9 @@ task setEnv {
     props.setProperty('oktaApiKey', System.getenv("OKTA_API_KEY"))
     props.setProperty('oktaUrl', System.getenv("OKTA_URL"))
     props.setProperty('oktaEntityId', System.getenv("OKTA_ENTITY_ID"))
+    props.setProperty('projectAbsolutePath', project.rootDir.absolutePath)
+
+    props.store(propFile.newWriter(), "Heroku environment properties")
 }
 
 task stage(dependsOn: ["clean", "dbReset", "war", "copyToLib"])
