@@ -59,7 +59,7 @@
     </bean>
 
     <bean id="configFilePath" class="java.lang.String">
-        <constructor-arg value="${projectAbsolutePath}/src/main/resources/okta_config.xml"/>
+        <constructor-arg value="${projectRootDir}/src/main/resources/okta_config.xml"/>
     </bean>
 
     <bean id="oktaAuthPeer" class="com.okta.saml.util.OktaAuthPeer">

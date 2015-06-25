@@ -8,4 +8,5 @@ task setEnv {
     props.setProperty('postgresqlDB', 'app_test')
     props.setProperty('postgresqlUsername', System.getenv("SNAP_DB_PG_USER"))
     props.setProperty('postgresqlPassword', System.getenv("SNAP_DB_PG_PASSWORD"))
+    props.setProperty('projectRootDir', project.rootDir.absolutePath)
 }

@@ -12,7 +12,7 @@ task setEnv {
     props.setProperty('oktaApiKey', System.getenv("OKTA_API_KEY"))
     props.setProperty('oktaUrl', System.getenv("OKTA_URL"))
     props.setProperty('oktaEntityId', System.getenv("OKTA_ENTITY_ID"))
-    props.setProperty('projectAbsolutePath', project.rootDir.absolutePath)
+    props.setProperty('projectRootDir', "/app")
 
     props.store(propFile.newWriter(), "Heroku environment properties")
 }

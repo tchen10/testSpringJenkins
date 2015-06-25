@@ -2,7 +2,7 @@ ext.propFile = new File("src/main/resources/local.properties")
 
 task setEnv {
     props.load(propFile.newDataInputStream())
-    props.setProperty('projectAbsolutePath', project.rootDir.absolutePath)
+    props.setProperty('projectRootDir', project.rootDir.absolutePath)
     props.store(propFile.newWriter(), "Local environment properties")
 }
 
