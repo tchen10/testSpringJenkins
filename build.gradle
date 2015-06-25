@@ -100,6 +100,15 @@ task dbInit(type: Exec, dependsOn: ["setEnv"]) {
 
 task dbUpdate(dependsOn: ["setEnv", "flywayMigrate"])
 
+//This is used in the deploy stage of the snap pipeline to load test data into the staging db
+task loadStagingTestData(type: Exec) {
+    commandLine 'psql', 'd3a768s9fol73e',
+            '-h', 'ec2-54-204-20-209.compute-1.amazonaws.com',
+            '-f', "${project.rootDir.absolutePath}/src/test/data/AddTestData.sql",
+            '-U', 'vckfhimyuiymcz',
+            '-p', '5432'
+}
+
 flyway {
     url = "${props.postgresqlUrl}"
     user = "${props.postgresqlUsername}"
