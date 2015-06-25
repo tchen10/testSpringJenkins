@@ -120,6 +120,7 @@ flyway {
 setEnv.doLast {
     props.setProperty('projectAbsolutePath', project.rootDir.absolutePath)
     props.store(propFile.newWriter(), null)
+    // TODO: look for a templating system to write to okta_config
     ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "<default>.*</default>", replace: "<default>" + props.oktaEntityId + "</default>")
     ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "entityID=.*>", replace: "entityID='" + props.oktaEntityId + "'>")
     ant.replaceregexp(file: 'src/main/resources/okta_config.xml', match: "<ds:X509Certificate>.*</ds:X509Certificate>", replace: "<ds:X509Certificate>" + props.oktaCertificate + "</ds:X509Certificate>")
