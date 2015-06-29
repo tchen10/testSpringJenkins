@@ -35,6 +35,8 @@
     ./gradlew clean compileJava runApp`
     ```
 
+    Access it through `localhost:8080` or `https://localhost:8443` on your browser
+
 ## Unit Tests
 1. From your project directory, run
 
@@ -66,3 +68,6 @@ To manually deploy to Heroku, or to view your commits on snapci follow these ins
 - You can make sure you have it by `git remote`
 - You'll need to put an ssh key up on heroku to be able to push to it `heroku keys:add ~/.ssh/id_rsa.pub`
 - Now you can deploy! `git push heroku master`
+
+## Runing the application on Https
+You can run the application on https locally by typing `https://localhost:8443`.
