@@ -1,4 +1,4 @@
-ext.propFile = new File("src/main/resources/local.properties")
+ext.propFile = new File("src/main/resources/dev.properties")
 
 task setEnv {
     props.load(propFile.newDataInputStream())

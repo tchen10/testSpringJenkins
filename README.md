@@ -26,7 +26,7 @@
 1. Set your profile to the local profile.
 
     ```
-    export PROFILE=local
+    export PROFILE=dev
     ```
 
 2. Run the application.
