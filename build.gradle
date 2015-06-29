@@ -94,6 +94,10 @@ task copyToLib << {
     }
 }
 
+tomcatRun {
+    enableSSL = true
+}
+
 task runApp(dependsOn: ["setEnv", "configureOkta", "tomcatRun"])
 
 task dbInit(type: Exec, dependsOn: ["setEnv"]) {
