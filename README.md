@@ -23,19 +23,10 @@
     ```
 
 ## Running the App
-1. Set your profile to the local profile.
 
-    ```
-    export PROFILE=dev
-    ```
+    ./gradlew clean compileJava runApp
 
-2. Run the application.
-
-    ```
-    ./gradlew clean compileJava runApp`
-    ```
-
-    Access it through `localhost:8080` or `https://localhost:8443` on your browser
+Access it through `localhost:8080` or `https://localhost:8443` on your browser
 
 ## Unit Tests
 1. From your project directory, run
@@ -71,3 +62,13 @@ To manually deploy to Heroku, or to view your commits on snapci follow these ins
 
 ## Runing the application on Https
 You can run the application on https locally by typing `https://localhost:8443`.
+
+## Configuration 
+There are profiles configured for each type of environment (Dev, Test, Snap, Heroku). The application will use the 
+profile that is set via the environment variables as PROFILE. If PROFILE is not set it will use the profile of dev as 
+the default. The prefix used for that in the application is ${PROFILE:dev} indicating that if PROFILE is not set then it
+will use dev.
+
+Also, if you want to set the profile to something specific locally use the following syntax:
+
+    PROFILE=<profile> ./gradlew <task(s)>

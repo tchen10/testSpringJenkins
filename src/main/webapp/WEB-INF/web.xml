@@ -46,12 +46,7 @@
 
     <context-param>
         <param-name>spring.profiles.active</param-name>
-        <param-value>${PROFILE}</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>spring.profiles.default</param-name>
-        <param-value>dev</param-value>
+        <param-value>${PROFILE:dev}</param-value>
     </context-param>
 
 </web-app>

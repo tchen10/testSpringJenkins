@@ -15,7 +15,7 @@
             http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
     <context:component-scan base-package="com.thoughtworks.acit"/>
-    <context:property-placeholder location="classpath:${PROFILE}.properties"/>
+    <context:property-placeholder location="classpath:${PROFILE:dev}.properties"/>
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <mvc:annotation-driven/>
 
