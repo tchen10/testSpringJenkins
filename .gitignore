@@ -18,3 +18,4 @@ classes/*
 tomcat*
 target/*
 
+phantomjsdriver.log
