@@ -35,6 +35,10 @@ Access it through `localhost:8080` or `https://localhost:8443` on your browser
     ./gradlew clean build
     ```
 
+## Functional Tests
+1. `brew install phantomjs`
+2. `PROFILE=test ./gradlew clean build compileJava functional`
+
 ## Database
 We use flyway for our database migration tool. Flyway comes with a lot of commands out of the box.
 - `./gradlew flywayMigrate` : Migrates the database
