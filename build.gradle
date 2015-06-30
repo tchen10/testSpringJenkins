@@ -22,6 +22,8 @@ if (System.getenv("PROFILE") == 'snap') {
     apply from: 'profile_snap.gradle'
 } else if (System.getenv("PROFILE") == 'heroku') {
     apply from: 'profile_heroku.gradle'
+} else if (System.getenv("PROFILE") == 'test'){
+    apply from: 'profile_test.gradle'
 } else {
     apply from: 'profile_dev.gradle'
 }
@@ -47,8 +49,7 @@ dependencies {
     testCompile "junit:junit:4.11",
             "org.mockito:mockito-core:1.9.5",
             "org.springframework:spring-test:4.0.6.RELEASE",
-            'com.github.detro:phantomjsdriver:1.2.0',
-            'org.seleniumhq.selenium:selenium-java:2.42.0'
+            'com.github.detro:phantomjsdriver:1.2.0'
 
     compile "org.springframework:spring-webmvc:4.1.6.RELEASE",
             "org.springframework:spring-orm:4.1.6.RELEASE",
@@ -96,26 +97,32 @@ task copyToLib << {
     }
 }
 
-tomcatRun {
+tomcat {
     enableSSL = true
-    tomcat.daemon = true
+    contextPath = '/'
+    daemon = false
+}
+
+task testingTomcatRun(type: com.bmuschko.gradle.tomcat.tasks.TomcatRun) {
+    daemon = true
+}
+
+task testingTomcatStop(type: com.bmuschko.gradle.tomcat.tasks.TomcatStop) {
+
+}
+
+task functional(type: Test, dependsOn: ['setEnv', 'testingTomcatRun']) {
+    outputs.upToDateWhen {false}
+
+    exclude '**/unit/**'
+    include '**/functional/**'
+    finalizedBy testingTomcatStop
 }
 
 task runApp(dependsOn: ["setEnv", "configureOkta", "tomcatRun"])
 
 test {
     exclude '**/functional/**'
-}
-
-task functional(type: Test, dependsOn: ['setEnv', 'tomcatRun']) {
-    exclude '**/unit/**'
-    exclude '**/controllers/**'
-    include '**/functional/**'
-
-    doLast {
-        println 'Stopping tomcat server'
-        tomcatStop.execute()
-    }
 }
 
 task dbInit(type: Exec, dependsOn: ["setEnv"]) {
