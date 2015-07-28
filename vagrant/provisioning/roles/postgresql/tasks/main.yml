@@ -1,0 +1,68 @@
+---
+
+
+- name: Install Postgres Repo
+  yum:
+    name=http://yum.postgresql.org/{{ postgresql_version }}/redhat/rhel-6-x86_64/pgdg-centos93-9.3-1.noarch.rpm
+    state=present
+
+- name: Install postgresql packages
+  yum:
+    pkg={{item}}
+    state=present
+  with_items:
+    - postgresql{{ postgresql_version | replace('.','') }}
+    - postgresql{{ postgresql_version | replace('.','') }}-server
+    - python-psycopg2
+  register: installed
+
+- name: Initialize postgres database
+  command:
+    service postgresql-{{ postgresql_version }} initdb
+  when: installed.changed
+
+- name: Configure pg_hba.conf
+  template:
+    src=pg_hba.conf.j2
+    dest=/var/lib/pgsql/{{ postgresql_version }}/data/pg_hba.conf
+    owner={{ postgresql_admin_user }}
+    group={{ postgresql_admin_user }}
+    mode=0640
+  notify: Restart PostgreSQL
+
+- name: Configure postgresql.conf
+  lineinfile:
+    dest=/var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf
+    state=present
+    regexp="{{ item.regexp }}"
+    line="{{ item.guc }}"
+  with_items: postgresql_conf_custom
+  notify: Restart PostgreSQL
+
+- name: Configure postgresql-9.3 service
+  lineinfile:
+    dest=/etc/rc.d/init.d/postgresql-{{ postgresql_version }}
+    state=present
+    regexp={{ item.regexp }}
+    line={{ item.guc }}
+  with_items: postgresql_service_custom_guc
+  notify: Restart PostgreSQL
+
+- name: Start PostgreSQL server
+  service:
+    name=postgresql-{{ postgresql_version }}
+    state=started
+    enabled=yes
+
+- name: Create database
+  postgresql_db:
+    name={{ postgresql_database }}
+    state=present
+    port={{ postgresql_port }}
+
+- name: Create database user
+  postgresql_user:
+    db={{ postgresql_database }}
+    name={{ postgresql_username }}
+    password={{ postgresql_password }}
+    port={{ postgresql_port }}

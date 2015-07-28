@@ -33,7 +33,7 @@ targetCompatibility = 1.8
 
 version = '1.0'
 
-war.baseName = "simpleSpring"
+war.baseName = "testSpringJenkins"
 
 tomcat.contextPath = '/'
 

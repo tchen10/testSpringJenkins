@@ -1,0 +1,12 @@
+---
+
+
+- name: Get Java rpm
+  command:
+    wget {{ java_wget_args }} http://download.oracle.com/otn-pub/java/jdk/8u31-b13/{{ java_rpm }}
+    creates={{ ansible_cache_folder }}/{{ java_rpm }}
+
+- name: Install Java rpm
+  yum:
+    name={{ ansible_cache_folder }}/{{ java_rpm }}
+    state=present

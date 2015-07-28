@@ -1,0 +1,30 @@
+---
+
+
+- name: Download phantomJS
+  get_url:
+    url=http://bitbucket.org/ariya/phantomjs/downloads/{{ phantomjs_archive }}
+    dest={{ ansible_cache_folder }}/{{ phantomjs_archive }}
+
+- name: Extract phantomJS
+  unarchive:
+    copy=no
+    src={{ ansible_cache_folder }}/{{ phantomjs_archive }}
+    dest=/opt/
+
+- name: Add phantomJS executable symlink to path
+  file:
+    src=/opt/{{ phantomjs_folder }}/bin/phantomjs
+    dest=/usr/local/bin/phantomjs
+    state=link
+
+- name: Install phantomJS dependencies
+  yum:
+    pkg={{ item }}
+    state=present
+  with_items:
+    - fontconfig
+    - freetype
+    - libfreetype.so.6
+    - libfontconfig.so.1
+    - libstdc++.so.6

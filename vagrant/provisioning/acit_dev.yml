@@ -1,0 +1,18 @@
+---
+- hosts: all
+  sudo: yes
+  vars_files:
+    - "vars/ansible_dev_vars.yml"
+  roles:
+    - base
+    - postgresql
+    - java_jdk
+    - phantomjs
+    - epel6_repo
+    - nodejs
+
+  tasks:
+    - name: Update packages
+      yum:
+        name=*
+        state=latest

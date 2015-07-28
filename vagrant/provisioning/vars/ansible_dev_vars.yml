@@ -1,0 +1,33 @@
+ansible_cache_folder: /var/local/ansible-cache
+
+postgresql_jdbc_archive: postgresql-9.1-903.jdbc4.jar
+
+java_version: 8u31-linux-x64
+java_rpm: jdk-{{ java_version }}.rpm
+java_folder: jdk-{{ java_version }}
+java_wget_args: -O /var/local/ansible-cache/{{ java_rpm }} --no-check-certificate --no-cookies --header "Cookie:oraclelicense=accept-securebackup-cookie"
+
+phantomjs_version: 1.9.7-linux-x86_64
+phantomjs_archive: phantomjs-{{ phantomjs_version }}.tar.bz2
+phantomjs_folder: phantomjs-{{ phantomjs_version }}
+
+postgresql_version: 9.3
+postgresql_admin_user: postgres
+
+postgresql_pg_hba_custom:
+ - { type: local, database: all, role: all, address: "", method: trust }
+ - { type: host, database: all, role: all, address: "0.0.0.0/0", method: trust }
+ - { type: host, database: all, role: all, address: "::/0", method: trust }
+
+postgresql_conf_custom:
+  - { regexp: "^#?listen_addresses = .*$", guc: "listen_addresses = '*'" }
+  - { regexp: "^#?port = .*$", guc: "port = {{ postgresql_port }}" }
+
+postgresql_service_custom_guc:
+  - { regexp: "^#?PGPORT=.*$", guc: "PGPORT={{ postgresql_port }}" }
+
+postgresql_host: localhost
+postgresql_port: 65000
+postgresql_database: database
+postgresql_username: postgres
+postgresql_password: postgres
